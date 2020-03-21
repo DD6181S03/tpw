@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+    <br>
+    {% for lineid in lines %}
+        <a class="btn btn-primary" href="/line/{{ lineid }}">{{ lines[lineid] }}</a>
+        <br>
+        <br>
+    {% endfor %}
+    <br>
+{% endblock %}

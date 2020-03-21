@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+<br>
+    <div class="card-columns">
+    {% for stn in stns %}
+        <a href='/stn/{{ stn[0] }}' class="card text-center list-group-item-action">
+            <div class="card-body">
+                <h5 class="card-title">{{ stn[1] }}</h5>
+                <p class="card-text">{{ stn[2] }}</p>
+            </div>
+        </a>
+    {% endfor %}
+    </div>
+<br>
+{% endblock %}

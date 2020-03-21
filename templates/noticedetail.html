@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <br>
+    <h5>{{ notice[0] }}</h5>
+    <p>{{ notice[1] }}</p>
+    <hr>
+    {% for dl in notice[2].split('\n') %}
+        <p>{{ dl }}</p>
+    {% endfor %}
+    <br>
+{% endblock %}

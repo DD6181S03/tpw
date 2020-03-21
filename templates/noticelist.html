@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <br>
+    <div class="list-group">
+        {% for notice in notices %}
+            <a href="/notd/{{ notice[0] }}" class="list-group-item list-group-item-action flex column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ notice[2] }}</h5>
+                    <small>{{ notice[1] }}</small>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    <br>
+{% endblock %}

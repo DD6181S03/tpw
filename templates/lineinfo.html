@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3>{{ dplist[dplist|count - 1]['lineName'] }}</h3>
+    <p>{{ dplist[0][1] }} {{ dplist[dplist|count - 1]['startTime'] }} - {{ dplist[dplist|count - 2][1] }} {{ dplist[dplist|count - 1]['endTime'] }}</p>
+    <p>{{ dplist[dplist|count - 1]['todayPlan'] }}</p>
+    <p>下一班 {{ dplist[dplist|count - 1]['nextBus'] }}</p>
+    <hr>
+    <dl>
+    {% for stnitem in dplist[0:(dplist|count - 1)] %}
+        <dt style="font-weight: 500">{{ stnitem[0] }}  {{ stnitem[1] }}</dt>
+        {% if stnitem|length > 2 %}
+            {% for bus in stnitem[2:(stnitem|count)] %}
+            <dd style="margin-bottom: 0; margin-left: 25px"><a href='/bus/{{ bus }}'>{{ bus }}</a></dd>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+    </dl>
+    <br>
+{% endblock %}

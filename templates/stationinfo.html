@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <br>
+    {% for line in lines %}
+        <a class="" href="/line/{{ line[0] }}">{{ line[1] }}</a>
+        <br>
+    {% endfor %}
+    <br>
+{% endblock %}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form, render_field %}
+
+{% block content %}
+    <br>
+    {% if message %}
+    <p>{{ message }}</p>
+    {% else %}
+    <div class="card bg-light" style="width: 18rem;">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">自编：{{ busifm['busid'] }}</li>
+          <li class="list-group-item">线路：{{ busifm['busline'] }}</li>
+          <li class="list-group-item">速度：{{ busifm['velocity'] }}</li>
+          <li class="list-group-item">下一站：{{ busifm['nextstn']}}</li>          
+        </ul>
+    </div>
+    <br>
+    <img src="{{ busifm['amapurl'] }}" class="img-fluid" alt="Responsive image" >
+    <br>
+    {% endif %}
+{% endblock %}

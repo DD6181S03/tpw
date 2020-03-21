@@ -1,0 +1,45 @@
+{% from 'bootstrap/nav.html' import render_nav_item %}
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>济南公交位置查询</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    {{ bootstrap.load_css() }}
+</head>
+
+<body>
+    <nav class="navbar navbar-light bg-light navbar-expand-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/">济南公交实时位置查询</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    {{ render_nav_item('index', '主页') }}
+                    {{ render_nav_item('getroute', '路线查询') }}
+                    {{ render_nav_item('noticelist', '公告') }}
+                    {{ render_nav_item('about', '关于') }}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="text-center">
+        {% block footer %}
+        <small> 2016-2020 <a href="https://jn84.net">济南市公共交通大百科</a>::<a href="https://d6s3.ac.cn">DD6181S03</a>
+        </small>
+        {% endblock %}
+    </footer>
+
+    {{ bootstrap.load_js() }}
+</body>
+
+</html>
