@@ -1,8 +1,8 @@
 # 济南公交实时位置查询
 
 ## For non-Chinese speakers
-I think there are no English speaker will use this project, so I didn't write the documentation in English.  
-If you need help, please contact me.
+I don't think anyone who speaks English will use this project, so I didn't write English documentation.
+Please contact me if you need help.
 
 ## 写在前面
 本项目断断续续开发很久，由于初期技术生疏，中间有不少丑陋的代码实现，编码规范也基本上没遵守过，但还好也实现了一些基本的功能。  
