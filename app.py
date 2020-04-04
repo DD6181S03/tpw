@@ -17,6 +17,8 @@ class BusInputForm(FlaskForm):
     bsi = StringField('线路', validators=[DataRequired()])
     submitline = SubmitField('查线路')
     submitstn = SubmitField('查车站')
+    submitbus = SubmitField('查自编')
+
 
 
 @app.route('/line/<lineid>')
@@ -26,14 +28,13 @@ def showline(lineid):
 
 @app.route('/bus/<busid>')
 def businfo(busid):
-    lineid = request.referrer.rsplit('/', 1)[-1]
-    if lineid:
-        return render_template('bus.html', busifm=nbloc(busid, lineid))
-    else:
-        ret4 = busloc(busid)
-        if ret4:
-            return render_template('bus.html', busifm=ret4)
-        return render_template('bus.html', message='查不到')
+    try:
+        lineid = request.referrer.rsplit('/', 1)[-1]
+        if int(lineid) < 0 or int(lineid) > 1500:
+            lineid = -1
+    except:
+        lineid = -1
+    return render_template('bus.html', busifm=nbloc(busid, lineid))
 
 
 @app.route('/linec/<lineinput>')

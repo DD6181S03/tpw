@@ -4,8 +4,8 @@
 
 {% block content %}
     <br>
-    {% if message %}
-    <p>{{ message }}</p>
+    {% if busifm['message'] %}
+    <p>{{ busifm['message'] }}</p>
     {% else %}
     <div class="card bg-light" style="width: 18rem;">
         <ul class="list-group list-group-flush">
@@ -16,7 +16,7 @@
         </ul>
     </div>
     <br>
-    <img src="{{ busifm['amapurl'] }}" class="img-fluid" alt="Responsive image" >
+    <img src="{{ busifm['amapurl'] }}" class="img-fluid">
     <br>
     {% endif %}
 {% endblock %}

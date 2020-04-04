@@ -2,16 +2,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h3>{{ dplist[dplist|count - 1]['lineName'] }}</h3>
-    <p>{{ dplist[0][1] }} {{ dplist[dplist|count - 1]['startTime'] }} - {{ dplist[dplist|count - 2][1] }} {{ dplist[dplist|count - 1]['endTime'] }}</p>
-    <p>{{ dplist[dplist|count - 1]['todayPlan'] }}</p>
-    <p>下一班 {{ dplist[dplist|count - 1]['nextBus'] }}</p>
+    <h3>{{ dplist[-1]['lineName'] }}</h3>
+    <p>{{ dplist[0][1] }}({{ dplist[-1]['startTime'] }}-{{ dplist[-1]['endTime'] }}) - {{ dplist[-2][1] }}
+        <br/><a href="/line/{{ dplist[-1]['revLine'] }}">反向线路</a></p>
+    <p>{{ dplist[-1]['todayPlan'] }}</p>
+    <p>下一班 {{ dplist[-1]['nextBus'] }}</p>
     <hr>
     <dl>
-    {% for stnitem in dplist[0:(dplist|count - 1)] %}
+    {% for stnitem in dplist[0:-1] %}
         <dt style="font-weight: 500">{{ stnitem[0] }}  {{ stnitem[1] }}</dt>
         {% if stnitem|length > 2 %}
-            {% for bus in stnitem[2:(stnitem|count)] %}
+            {% for bus in stnitem[2:] %}
             <dd style="margin-bottom: 0; margin-left: 25px"><a href='/bus/{{ bus }}'>{{ bus }}</a></dd>
             {% endfor %}
         {% endif %}

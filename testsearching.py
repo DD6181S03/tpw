@@ -30,16 +30,15 @@ def getlineid(line):
 
 def getlineinfo(lineid):
     url2 = 'https://api.369cx.cn/v2/Line/GetRealTimeLineInfo/' + lineid
-    r = requests.get(url2, headers=headersget).json()
-    r2 = r['result']['stations']
-    url3 = 'https://api.369cx.cn/v2/Bus/GetRealtimeInfoByLineId/' + lineid
-    rp = requests.get(url3, headers=headersget).json()['result']
-    r3 = rp['busses']
+    rp = requests.get(url2, headers=headersget).json()
+    r = rp['result']
+    r2 = r['stations']
+    r3 = r['busses']
     try:
-        r4 = ' '.join((rp['nextBus']['name'], rp['nextBus']['planTime']))
+        r4 = ' '.join((r['nextBus']['name'], r['nextBus']['planTime']))
     except:
         r4 = '没有数据'
-    # 获取该线路所有站点，当前线上车辆，下一班车辆，两站之间路况
+    # 获取该线路所有站点，当前线上车辆，下一班车辆
     dplist = []
     for station in r2:
         stnid = station['stationNo'] + 1
@@ -50,14 +49,28 @@ def getlineinfo(lineid):
         busid = bus['name']
         stnnum = bus['stationNo']
         dplist[stnnum].append(busid)
-    extinfo = {'lineName': r['result']['name'], 'nextBus': r4, 'startTime': r['result']['firstDepartureTime'],
-               'endTime': r['result']['lastDepartureTime'], 'todayPlan': r['status']['msg'].rstrip('|')}
+    extinfo = {'lineName': r['name'], 'nextBus': r4, 'startTime': r['firstDepartureTime'],
+               'endTime': r['lastDepartureTime'], 'todayPlan': rp['status']['msg'].rstrip('|'),
+               'revLine': r['backLineId']}
     dplist.append(extinfo)
     return dplist
 
 
 def nbloc(busid, lineid):
     ret = {}
+    busid = busid.lstrip('K')
+    if len(busid) < 4:
+        busid = busid.zfill(4)
+    if lineid == -1:
+        rid = requests.post(urlsearch, headers=headerspost, data=json.dumps({'keyword': busid})).json()['result']
+        if rid:
+            if not rid['result']:
+                return {'message': '查不到'}
+            lineid = rid['result'][0]['guid']
+            ret = {'busid': rid['result'][0]['text1'], 'nextstn': '未上线运行',
+                    'busline': rid['result'][0]['text3'].split('|')[1].split(' ')[0]}
+        else:
+            return {'message': '查不到'}
     urlbuses = 'http://iwaybook.369cx.cn/server-ue2/rest/buses/busline/370100/' + lineid
     urlstns = 'https://api.369cx.cn/v2/Line/GetRealTimeLineInfo/' + lineid
     rxl = requests.get(urlstns, headers=headersget).json()['result']
@@ -65,12 +78,12 @@ def nbloc(busid, lineid):
     rc = rxl['busses']
     r = requests.get(urlbuses, headers=headersold).json()['result']
     for res in r:
-        if res['busId'] == busid:
+        if res['busId'] == busid or res['busId'] == 'K'+busid:
             ret['busid'] = res['busId']
             ret['busline'] = rxl['name']
             ret['nextstn'] = rstns[res['stationSeqNum']]['name']
             for bus in rc:
-                if bus['name'] == busid:
+                if bus['name'] == busid or bus['name'] == 'K'+busid:
                     ret['velocity'] = str(bus['velocity']) + ' km/h'
             wglng = res['lng']
             wglat = res['lat']
